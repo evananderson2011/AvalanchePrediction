@@ -1,0 +1,78 @@
+
+TAs: Samuel and Ankur			
+204 - Bayesian Backcountry Boarder - Evan Anderson
+Avalanche Prediction using Time Series data and a Classification Model:
+
+SNOTEL
+CAIC
+
+Analyzing a single area, with multiple regions in that area -> will map SNOTEL stations to areas
+10 years of data for a given area will include close to 300 sample events. Might not be large enough, so may need to include multiple areas...
+
+Historic information will be added as variables for possible components. They will include:
+Past 3 days of:
+	snow fall
+	snow fall change (pre-calculated)
+	snow depth
+	snow depth change
+	temperature high
+	temperature low
+	wind direction
+We will also summarize the above w/ aggregate forms over 7 and 14 days
+Each weather entry will also include, for a given year:
+	Fist minor snow event date (will need a non-date way to handle this, probably 0 starting Fall's first day)
+	First major snow event date
+	
+
+Output data for testing includes:
+	Avvy event
+	aspect (N vs S face)
+	Human or Natural
+	Avvy type
+	Relative Size - Sizes range from R1 (very small relative to path) to R5 (maximum or major, relative to path)
+	Destructive Size - Sizes range from D1 (relatively harmless to people) to D5 (could gouge the landscape, largest snow avalanche known).
+
+The Problem Statement:
+Prediction of avalanche or not, and if so aspects. 
+We'll want to do 2 prediction types by a risk level. All and Human Caused.
+Want to have a Density Estimation to get a "likelihood" maybe? 
+
+2 fold predictions: First, simple binary classifier for if an avy will happen or not.
+If it is likely to happen, what aspects? 
+
+For binary classifier, can do a simple linear regression, KMeans, KNN, etc for the classifier.
+For aspect prediction, will want to use GMM or Bayes? Maybe SVM?
+
+Data Work:
+Will split models into human vs natural cause.
+Will filter to only >R3 or >D2
+Will need to map SNOTEL weather station data to various landscapes. Not sure how granular we can get with these, if it'll be "entire front range" or "Loveland Pass". Might need to choose one SNOTEL station and apply to an entire BC zone. Or take averages. 
+
+
+
+Algos:
+ nearest neighbor (NN) classifier coupled with a distance function
+ SVMs
+
+
+Proposal Work:
+
+Write up your proposal! This should have each of the sections described in the report template…namely, the ‘Problem Statement’, ‘Dataset’ (optional), ‘Methodology’, ‘Evaluation and Final Results’ sections. You are free to add more to this, or make subsections, but these provided sections must be shown in some form. Each section can have some discussion in the proposal, even before you’ve done any experiments. For instance, in the ‘Evaluation + Final Results’ section, you should tell us how you will evaluate your models. Also, ensure your proposal is at least 2 pages long, without overly padding.
+
+Pick one member of your team to email your proposal (as a PDF) to both of your TA graders. Also, each member of your team should submit your team’s proposal to Canvas as a PDF. Make sure your proposal has your team members' names and GT ids provided. The proposal is mostly a check to be sure you’re on the right track, so as long as you’ve met the requirements, you’ll get full credit. One of your grading TAs may give you some level of feedback, but you can assume that no news is good news at this point (but not a guarantee that your project report will score well)
+
+
+
+https://wcc.sc.egov.usda.gov/reportGenerator/view_csv/customMultipleStationReport/daily/start_of_period/id=%22!1041%22,%22!936%22,%22!1120%22,%22!935%22,%22!802%22,%22!1040%22,%22!415%22,%22!505%22,%22!531%22%20AND%20state=%22CO%22%20AND%20county=%22Clear%20Creek%22,%22Eagle%22,%22Summit%22%20AND%20network=%22SNTL%22%20AND%20outServiceDate=%222100-01-01%22%7Cname/2010-10-01,2021-10-01/stationId,name,TAVG::value,TMAX::value,TMIN::value,PREC::value,PRCP::value,PRCPSA::value,PRCPMTD::value,SNWD::value,SNDN::value,SNRR::value,WDIRV::value,WSPDV::value,WSPDX::value?fitToScreen=false
+
+
+https://wcc.sc.egov.usda.gov/reportGenerator/view_csv/customMultipleStationReport/daily/start_of_period/id=%22!380%22,%22!780%22,%22!797%22,%22!386%22,%22!387%22,%22!629%22,%22!632%22,%22!669%22,%22!680%22,%22!701%22,%22!1141%22%20AND%20state=%22CO%22%20AND%20county=%22Gunnison%22,%22Ouray%22,%22San%20Juan%22%20AND%20network=%22SNTL%22%20AND%20outServiceDate=%222100-01-01%22%7Cname/2010-10-01,2021-10-01/stationId,name,TAVG::value,TMAX::value,TMIN::value,PREC::value,PRCP::value,PRCPSA::value,PRCPMTD::value,SNWD::value,SNDN::value,SNRR::value,WDIRV::value,WSPDV::value,WSPDX::value?fitToScreen=false
+
+
+
+ # Northern San Juan        741 - Idarado
+    # Front Range              453 - Loveland Basin
+    # Southern San Juan        391 - Red Mountain Pass
+    # Gunnison                 385 - Schofield Pass
+    # Vail & Summit County     356 - Vail Mountain
+    # Aspen                    333 - Independence Pass

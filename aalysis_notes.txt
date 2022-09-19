@@ -1,0 +1,66 @@
+Notes during process:
+
+RandomForest gave decent results. Need to cross validate.
+Optimum Number of Estimators is 37
+Accuracy Score: 0.9123248293208768
+	  PNo	 PAv 
+T No [[2519   17]
+T Av [ 227   20]]
+
+CART Model:
+0.8652533237513474
+	  PNo	 PAv 
+T No [[2341  195]
+T Av [ 180   67]]
+
+
+Doing SVM with various componenets via PCA. Looks promising:
+Running gammas 1/n where n[1:100]
+
+5: Best Gamma:  0.0044436383422508385, error: 1.0761767876392383
+6: Best Gamma:  0.002226766643944558, error: 1.0682716492993174
+PCA comps: 7 Best Gamma:  0.0029668200532816658 Mini Error:  1.0747394897592526
+PCA comps: 8 Best Gamma:  0.0020415816007666346 Mini Error:  1.0783327344592166
+PCA comps: 9 Best Gamma:  0.002 Mini Error:  1.1020481494789796
+PCA comps: 10 Best Gamma:  0.0020849289422176834 Mini Error:  1.0930650377290694
+PCA comps: 11 Best Gamma:  0.002130156936051819 Mini Error:  1.1074380165289257
+PCA comps: 12 Best Gamma:  0.002 Mini Error:  1.098095580309019
+PCA comps: 13 Best Gamma:  0.002130156936051819 Mini Error:  1.08300395256917
+PCA comps: 14 Best Gamma:  0.0021773906861002486 Mini Error:  1.1031261228889688
+PCA comps: 15 Best Gamma:  0.0021773906861002486 Mini Error:  1.0901904419690982
+PCA comps: 16 Best Gamma:  0.0023893114881997266 Mini Error:  1.0898311174991018
+PCA comps: 17 Best Gamma:  0.0020415816007666346 Mini Error:  1.09198706431908
+PCA comps: 18 Best Gamma:  0.002226766643944558 Mini Error:  1.0840819259791592
+PCA comps: 19 Best Gamma:  0.002130156936051819 Mini Error:  1.098095580309019
+PCA comps: 20 Best Gamma:  0.0020849289422176834 Mini Error:  1.0801293568091987
+PCA comps: 21 Best Gamma:  0.0021773906861002486 Mini Error:  1.1045634207689543
+PCA comps: 22 Best Gamma:  0.002 Mini Error:  1.0783327344592166
+PCA comps: 23 Best Gamma:  0.0020415816007666346 Mini Error:  1.0797700323392023
+
+Going with PCAing to 11 components. Produced an Accuracy of 0.08983
+Conf Matrix:
+	  PNo	 PAv      
+T No [[2531   14]
+T Av [ 236    2]]
+
+Naive Bayes
+Did not do so well, acc: 0.9144
+ 	  PNo	 PAv 
+T No[[2545    0]
+T Av [ 238    0]]
+
+Linear Regression with PCA did not work very well, likely do to the sparse data
+
+KNN Classifier
+With k=2, we do not get great accuracy, but we do get significantly fewer false negatives
+0.8638160258713619
+ 	  PNo	 PAv 
+T No[[2360  176]
+T Av [ 203   44]]
+
+
+After testing all of these, it seems the problem is that I should not be approaching this as a binary classification problem, but imstead as a likelihood problem. Which is what logistic regression is ideal for.
+So going to re-try linear regression with the PCA comps=11
+
+Linear Regression
+This did not pan out with anything better. 
